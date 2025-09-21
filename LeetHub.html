@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetHub - Sync Your LeetCode Solutions to GitHub</title>
+    <link rel="icon" type="image/png" href="leethub-logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #e1e7ef;
+            background: #0d1117;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(13, 17, 23, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #21262d;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f0f6fc;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            width: 28px;
+            height: 28px;
+            vertical-align: middle;
+            margin-right: 6px;
+            border-radius: 7px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #7d8590;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #f0f6fc;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            background: #0d1117;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(0, 200, 81, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(33, 38, 45, 0.8);
+            border: 1px solid #30363d;
+            border-radius: 50px;
+            color: #7d8590;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .badge .icon {
+            color: #00c851;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title .highlight {
+            color: #ff9800; /* LeetCode Orange */
+        }
+
+        .hero-title .github-text {
+            color: #00c851; /* GitHub Green */
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #7d8590;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: #00c851;
+            color: #0d1117;
+            border-color: #00c851;
+        }
+
+        .btn-primary:hover {
+            background: #00a644;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(0, 200, 81, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #f0f6fc;
+            border-color: #30363d;
+        }
+
+        .btn-secondary:hover {
+            background: #21262d;
+            border-color: #7d8590;
+        }
+
+        .features-list {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            color: #7d8590;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-item .check {
+            color: #00c851;
+            font-weight: bold;
+        }
+
+        .demo-section {
+            background: #0d1117;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin-bottom: 1rem;
+        }
+
+        .demo-subtitle {
+            font-size: 1.1rem;
+            color: #7d8590;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .demo-preview {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .demo-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .demo-mockup {
+            background: linear-gradient(135deg, #21262d, #30363d);
+            padding: 3rem;
+            color: #f0f6fc;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+        }
+
+        .mockup-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27ca3f; }
+
+        .code-line {
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+
+        .code-comment { color: #7d8590; }
+        .code-string { color: #79c0ff; }
+        .code-number { color: #ff8c00; }
+
+        .team-section {
+            background: #0d1117;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .team-icon {
+            width: 60px;
+            height: 60px;
+            background: #00c851;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #0d1117;
+            margin-bottom: 2rem;
+        }
+
+        .team-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin-bottom: 1rem;
+        }
+
+        .team-subtitle {
+            font-size: 1.1rem;
+            color: #7d8590;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .developer-card {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .developer-card:hover {
+            border-color: #00c851;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .dev-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .dev-avatar img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .dev-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f0f6fc;
+            margin-bottom: 0.5rem;
+        }
+
+        .dev-title {
+            color: #00c851;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dev-bio {
+            color: #7d8590;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .dev-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .dev-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #f0f6fc;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .dev-link.github svg {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+        }
+
+        .dev-link:hover {
+            border-color: #00c851;
+            background: rgba(0, 200, 81, 0.1);
+        }
+
+        .project-highlight {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 200, 81, 0.1);
+            border: 1px solid rgba(0, 200, 81, 0.2);
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .project-highlight h4 {
+            color: #00c851;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .project-highlight p {
+            color: #7d8590;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        footer {
+            background: #0d1117;
+            border-top: 1px solid #21262d;
+            padding: 2rem;
+            text-align: center;
+            color: #7d8590;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+            
+            .features-list {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">
+              <img src="leethub-logo.png" alt="LeetHub Logo" style="width:50px;height:50px;vertical-align:middle;margin-right:6px;border-radius:7px;">
+              LeetHub
+            </a>
+            <ul class="nav-links">
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="badge">
+            <span class="icon">⭐</span>
+            LeetCode to GitHub Sync
+        </div>
+        
+        <h1 class="hero-title animate-fade-in">
+            Sync Your <span class="highlight">LeetCode</span><br>
+            Solutions to <span class="github-text">GitHub</span>
+        </h1>
+        
+        <p class="hero-subtitle animate-fade-in">
+            Automatically build an impressive coding portfolio. Never lose your solutions again — every problem you solve gets pushed to GitHub with one click.
+        </p>
+        
+        <div class="cta-buttons animate-fade-in">
+            <a href="https://github.com/sajidkhnx" class="btn btn-primary" onclick="handleGetStarted()">
+                <span>🆓</span>
+                Add to Chrome - Free
+            </a>
+            <a href="#" class="btn btn-secondary" onclick="handleWatchDemo()">
+                <span>▶️</span>
+                Watch Demo
+            </a>
+        </div>
+        
+        <div class="features-list animate-fade-in">
+            <div class="feature-item">
+                <span class="check">✓</span>
+                Free Forever
+            </div>
+            <div class="feature-item">
+                <span class="check">✓</span>
+                No Account Required
+            </div>
+            <div class="feature-item">
+                <span class="check">✓</span>
+                Instant Setup
+            </div>
+        </div>
+    </section>
+
+    <section class="demo-section" id="demo">
+        <h2 class="demo-title">See LeetHub in Action</h2>
+        <p class="demo-subtitle">
+            Watch how easy it is to sync your LeetCode solutions to GitHub in just a few clicks
+        </p>
+        
+        <div class="demo-preview">
+            <div class="demo-mockup">
+                <div class="mockup-header">
+                    <div class="mockup-dot dot-red"></div>
+                    <div class="mockup-dot dot-yellow"></div>
+                    <div class="mockup-dot dot-green"></div>
+                </div>
+                <div class="code-line"><span class="code-comment">// LeetCode Problem: Two Sum</span></div>
+                <div class="code-line"><span class="code-string">class Solution {</span></div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;public int[] twoSum(int[] nums, int target) {</div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Your solution code here...</span></div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new int[]{<span class="code-number">0</span>, <span class="code-number">1</span>};</div>
+                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
+                <div class="code-line">}</div>
+                <div class="code-line"><br></div>
+                <div class="code-line"><span class="code-comment">✅ Automatically synced to GitHub!</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section" id="team">
+        <div class="team-icon">👨‍💻</div>
+        <h2 class="team-title">Meet the Developer</h2>
+        <p class="team-subtitle">
+            Get to know the creator behind LeetHub and connect for feedback or collaboration
+        </p>
+        
+        <div class="developer-card">
+            <div class="dev-avatar" style="background: none; padding: 0;">
+                <img src="linkedin-photo.jpg" alt="Sajid Khan" style="width:100px;height:100px;border-radius:50%;object-fit:cover;display:block;">
+            </div>
+            <div class="dev-name">Sajid Khan</div>
+            <div class="dev-links">
+                <a href="https://github.com/sajidkhnx" target="_blank" class="dev-link github">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.089 2.91.833.091-.647.35-1.089.636-1.34-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.338 4.695-4.566 4.944.359.309.678.919.678 1.852 0 1.336-.012 2.417-.012 2.747 0 .267.18.579.688.481C19.138 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2Z"/>
+                    </svg>
+                    GitHub
+                </a>
+                <a href="http://linkedin.com/in/sajid-khan-120b26278" target="_blank" class="dev-link">
+                    <span><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 48 48">
+<path fill="#0288D1" d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5V37z"></path><path fill="#FFF" d="M12 19H17V36H12zM14.485 17h-.028C12.965 17 12 15.888 12 14.499 12 13.08 12.995 12 14.514 12c1.521 0 2.458 1.08 2.486 2.499C17 15.887 16.035 17 14.485 17zM36 36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698-1.501 0-2.313 1.012-2.707 1.99C24.957 25.543 25 26.511 25 27v9h-5V19h5v2.616C25.721 20.5 26.85 19 29.738 19c3.578 0 6.261 2.25 6.261 7.274L36 36 36 36z"></path>
+</svg></span> LinkedIn
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 LeetHub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Handle button clicks
+        function handleGetStarted() {
+            alert('🚀 Welcome to LeetHub! Chrome extension installation would begin here.');
+        }
+
+        function handleWatchDemo() {
+            alert('▶️ Demo video would play here showing the sync process in action!');
+        }
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.demo-section, .team-section');
+            animateElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection && scrolled < window.innerHeight) {
+                heroSection.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
