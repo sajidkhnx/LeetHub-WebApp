@@ -532,22 +532,17 @@
         </p>
         
         <div class="demo-preview">
-            <div class="demo-mockup">
-                <div class="mockup-header">
-                    <div class="mockup-dot dot-red"></div>
-                    <div class="mockup-dot dot-yellow"></div>
-                    <div class="mockup-dot dot-green"></div>
-                </div>
-                <div class="code-line"><span class="code-comment">// LeetCode Problem: Two Sum</span></div>
-                <div class="code-line"><span class="code-string">class Solution {</span></div>
-                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;public int[] twoSum(int[] nums, int target) {</div>
-                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Your solution code here...</span></div>
-                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return new int[]{<span class="code-number">0</span>, <span class="code-number">1</span>};</div>
-                <div class="code-line">&nbsp;&nbsp;&nbsp;&nbsp;}</div>
-                <div class="code-line">}</div>
-                <div class="code-line"><br></div>
-                <div class="code-line"><span class="code-comment">✅ Automatically synced to GitHub!</span></div>
-            </div>
+            <video id="leethub-demo-video"
+                   width="100%"
+                   style="max-width:900px;border-radius:12px;outline:none;"
+                   autoplay
+                   loop
+                   muted
+                   playsinline
+                   poster="demo-thumbnail.jpg">
+                <source src="LeetHub.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </section>
 
@@ -604,7 +599,16 @@
         }
 
         function handleWatchDemo() {
-            alert('▶️ Demo video would play here showing the sync process in action!');
+            // Scroll to demo and play video
+            const demoSection = document.getElementById('demo');
+            if (demoSection) {
+                demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            const video = document.getElementById('leethub-demo-video');
+            if (video) {
+                video.muted = true;
+                video.play();
+            }
         }
 
         // Add scroll animations
@@ -631,6 +635,21 @@
                 el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                 observer.observe(el);
             });
+
+            // Autoplay video when demo section is in view
+            const demoSection = document.querySelector('.demo-section');
+            const video = document.getElementById('leethub-demo-video');
+            if (demoSection && video) {
+                const videoObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            video.muted = true;
+                            video.play();
+                        }
+                    });
+                }, { threshold: 0.3 });
+                videoObserver.observe(demoSection);
+            }
         });
 
         // Parallax effect for hero
